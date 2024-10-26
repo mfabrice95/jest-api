@@ -1,0 +1,7 @@
+// const path = require('path')
+
+// const IMAGES1_DESTINATIONS = {
+//      publications: path.sep + 'uploads' + path.sep + 'images' + path.sep + 'publications'
+// }
+
+// module.exports = IMAGES1_DESTINATIONS
