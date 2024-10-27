@@ -3,6 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
+//routes
+const all_utilisateur_router = require('./routes/utilisateurs_provider')
+
 // creation d'Une instance de l'application.
 //Cette instance représente l'application web
 const app = express();
@@ -14,7 +17,7 @@ const auth_routes = require("./routes/auth.routes");
 const bindUser = require("./middlewares/bindUser");
 dotenv.config();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT ;
 
 //connfuguration d'un port d'ecoute
 //le port sur lequel le server ecoutera
@@ -36,7 +39,7 @@ app.use(fileUpload());
 
 //middleware specifique a une route
 app.all("*", bindUser);
-app.use("/", utilisateurs_routes);
+app.use("/utilisateurs", all_utilisateur_router);
 app.use("/", publications_routes);
 app.use("/upload", upload_routes);
 app.use("/auth", auth_routes);

@@ -7,8 +7,8 @@ const Utilisateurs = sequelize.define(
     ID_UTILISATEUR: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primarykey: true,
-      autoincrement: true,
+      primaryKey: true,
+      autoIncrement: true,
     },
     NOM: {
       type: DataTypes.STRING(50),
@@ -22,16 +22,12 @@ const Utilisateurs = sequelize.define(
       type: DataTypes.STRING(20),
       allowNull: false,
     },
-    DATE_NAISSANCE: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     EMAIL: {
       type: DataTypes.STRING(155),
       allowNull: false,
       defaultValue: null,
     },
-    PASSWORD: {
+    MOT_DE_PASSE: {
       type: DataTypes.STRING(255),
       allowNull: false,
       defaultValue: null,
@@ -41,6 +37,15 @@ const Utilisateurs = sequelize.define(
       allowNull: true,
       defaultValue: null,
     },
+    DATE_NAISSANCE: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    DATE_INSERTION: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
   },
   {
     freezeTableName: true,
@@ -48,5 +53,5 @@ const Utilisateurs = sequelize.define(
     timestamps: false,
   }
 );
-Utilisateurs.removeAttribute("id");
+// Utilisateurs.removeAttribute('id')
 module.exports = Utilisateurs;
