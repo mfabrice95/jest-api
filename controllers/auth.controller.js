@@ -7,13 +7,13 @@ dotenv.config()
 
 const login = async (req, res) => {
      try {
-          const { EMAIL, PASSWORD } = req.body
+          const { EMAIL, MOT_DE_PASSE } = req.body
           const validation = new Validation(req.body, {
                EMAIL: {
                     required: true,
                     email: true
                },
-               PASSWORD: {
+               MOT_DE_PASSE: {
                     required: true
                }
           }, {
@@ -21,7 +21,7 @@ const login = async (req, res) => {
                     required: "L'email est obligatoire",
                     email: "Email invalide"
                },
-               PASSWORD: {
+               MOT_DE_PASSE: {
                     required: "Le mot de passe est obligatoire"
                }
           })
@@ -35,21 +35,21 @@ const login = async (req, res) => {
                })
           }
           const utilisateur = await Utilisateurs.findOne({
-               attributes: ["ID_UTILISATEUR","NOM","PRENOM","PASSWORD","IMAGE"],
+               attributes: ["ID_UTILISATEUR","NOM","PRENOM","MOT_DE_PASSE","IMAGE"],
               
                where: {
                     EMAIL: EMAIL
                }
           })
           if(utilisateur) {
-               const isPasswordValid = await bcrypt.compare(PASSWORD, utilisateur.toJSON().PASSWORD)
+               const isPasswordValid = await bcrypt.compare(MOT_DE_PASSE, utilisateur.toJSON().MOT_DE_PASSE)
                if(isPasswordValid) {
                     const payload = {
                               ID_UTILISATEUR: utilisateur.toJSON().ID_UTILISATEUR
                     }
                     console.log(payload)
                     const accessToken = jwt.sign(payload, process.env.JWT_PRIVATE_KEY, { expiresIn: 259200 })
-                    const { PASSWORD: mdp, ...public } = utilisateur.toJSON()
+                    const { MOT_DE_PASSE: mdp, ...public } = utilisateur.toJSON()
                     res.status(200).json({
                          message: "Identifiants correct",
                          data: {

@@ -125,11 +125,11 @@ const createUtilisateur = async (req, res) => {
     const accessToken = jwt.sign(payload, process.env.JWT_PRIVATE_KEY, {
       expiresIn: 259200,
     });
-    const { MOT_DE_PASSE: mdp, ...public } = newuser.toJSON();
+    const { MOT_DE_PASSE: mdp, ...userData  } = newuser.toJSON();
     res.status(201).json({
       message: "utilisateurs enregistré avec succes",
       data: {
-        ...public,
+        ...userData ,
         token: accessToken,
       },
     });
@@ -148,10 +148,64 @@ const getusers = async (req, res) => {
     res.status(500).send("Erreur interne du serveur");
   }
 };
+const findByid = async (req, res) => {
+  try{
+      const { ID_UTILISATEUR } = req.params
+      const result = await Utilisateurs.findOne({
+          where: {
+              ID_UTILISATEUR: ID_UTILISATEUR
+
+          }
+      })
+      res.status(200).json(result)
+      } catch (error){
+          console.log(error)
+          res.status(500).send("erreur interne du serveur")
+      }
+}
+const modifieruser = async (req, res) => {
+  try{
+      const { ID_UTILISATEUR } = req.params
+      const { NOM, PRENOM, TELEPHONE, DATE_NAISSANCE} = req.body
+       await Utilisateurs.update({
+        NOM, PRENOM, TELEPHONE, DATE_NAISSANCE
+      },{
+          where: {
+              ID_UTILISATEUR: ID_UTILISATEUR
+          }
+      })
+      res.status(200).json({
+          message: "modification reussi",
+          data: {
+            NOM, PRENOM, TELEPHONE, DATE_NAISSANCE
+          }
+      })
+  }catch (error){
+      console.log(error)
+      res.status(500).send("erreur interne du serveur")
+  }
+}
+const   supprimeruser
+= async (req, res) => {
+  try{
+      const { ID_UTILISATEUR } = req.params
+      await Utilisateurs.destroy({
+          where: {
+              ID_UTILISATEUR: ID_UTILISATEUR
+          }
+      })
+      res.status(200).json({
+          message: "Suppression reussi",
+      })
+  } catch (error){
+      console.log(error)
+      res.status(500).send("erreur interne du serveur")
+  }
+}
 module.exports = {
   createUtilisateur,
   getusers,
-  // findByid,
-  // modifieruser,
-  // supprimeruser
+  findByid,
+  modifieruser,
+  supprimeruser
 };

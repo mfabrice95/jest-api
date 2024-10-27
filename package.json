@@ -4,7 +4,8 @@
   "description": "formation nodejs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll --verbose",
+    "test:cov": "jest --coverage",
     "start": "nodemon server.js"
   },
   "author": "Fabrice",
@@ -21,5 +22,9 @@
     "sequelize": "^6.37.5",
     "sharp": "^0.33.2",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }
